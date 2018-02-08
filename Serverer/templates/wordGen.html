@@ -1,144 +1,111 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    {% include 'includes/head.html' %}
     <title>Word Gen</title>
-</head>
-<body>
-    <h2>Generate the words!</h2>
-    <div class="container">
-        <div class="row">
-            <label class="col-25" for="chrset">Characters</label>
-            <input class="col-75" type="text" id="chrset" maxlength="10">
+    <body class="container">
+        <h2 class="page-header">Generate the words!</h2>
+        <div class="instructions">
+            <div>Enter the characters of the game below. E.g. "odvle" for 'o', 'd', 'l', 'v', 'e' set.</div>
+            <div>Then select the shortest and the longest length of words in the game.</div>
+            <div>Finally simple click <span class="bg-primary">Get the words!</span> button and wait for a couple of blinks.</div>
+            <div>Click any word for its meaning.</div>
+            <div>Have fun!</div>
+            <div>Powered by <a href="https://translate.google.com/" target="_blank">&#9400; Google Translate</a></div>
         </div>
-        <div class="row">
-            <label class="col-25" for="minlen">Min word length</label>
-            <select class="col-75" id="minlen">
-                {% for num in '123456789' %}
-                    <option>{{ num }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="row">
-            <label class="col-25" for="maxlen">Max word length</label>
-            <select class="col-75" id="maxlen">
-                {% for num in '123456789' %}
-                    <option>{{ num }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="row">
-            <br><br>
-            <div class="col-33 pad"></div>
-            <button class="col-33" id="gtw">Get the words!</button>
-            <div class="col-33 pad"></div>
-        </div>
-    </div>
-    <br>
-    <div class="container">Result: <div id="res"></div></div>
-    <script>
-        $('#gtw').click(function () {
-            var data = '{"minlen": ' + $('#minlen').val()
-                + ', "maxlen": ' + $('#maxlen').val()
-                + ', "chrset": "' + $('#chrset').val() + '"}';
-            $('#res').html('Loading...');
-            $.ajax({
-                type: "POST",
-                url: '{% url 'getwordgen' %}',
-                data: data
-            }).done(function (res) {
-            $('#res').html('');
-                var cnt = res.count;
-                if (cnt <= 0) {
-                    $('#res').html('Sorry! Nothing found :(');
-                }
-                else
-                    for (var i = 0; i < cnt; i++) {
-                        $('#res').append('<span>' + res['w' + (i + 1).toString()] + '&nbsp;&nbsp;&nbsp;</span>');
-                    }
+        <br>
+        <form onsubmit="return false">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
+                    <label for="chrset">Characters</label>
+                    <input class="form-control" type="text" id="chrset" maxlength="10" placeholder="odvle">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
+                    <label for="minlen">Min word length</label>
+                    <select class="form-control" id="minlen">
+                        {% for num in '123456789' %}
+                            <option>{{ num }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
+                    <label  for="maxlen">Max word length</label>
+                    <select class="form-control" id="maxlen">
+                        {% for num in '123456789' %}
+                            <option>{{ num }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" formmethod="post" class="btn btn-primary btn-lg center-block" id="gtw">Get the words!</button>
+            </div>
+        </form>
+        <br>
+        <div class="container">Result: <div id="res"></div></div>
+        <script>
+            $('document').ready(function () {
+               $('#minlen').find('option:eq(2)').attr('selected', 'selected');
+               $('#maxlen').find('option:eq(4)').attr('selected', 'selected');
             });
-        });
-    </script>
-</body>
-<style>
-    * {
-        font-family: 'Courgette', cursive;
-        box-sizing: border-box;
-    }
 
-    input, select, textarea{
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        resize: vertical;
-    }
-
-    label {
-        padding: 12px 12px 12px 0;
-        display: inline-block;
-    }
-
-    .container {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
-    }
-
-    .col-25 {
-        float: left;
-        width: 25%;
-        margin-top: 6px;
-    }
-
-    .col-33 {
-        float: left;
-        width: 33.33333333%;
-        margin-top: 6px;
-    }
-
-    .col-75 {
-        float: left;
-        width: 75%;
-        margin-top: 6px;
-    }
-
-    /* Clear floats after the columns */
-    .row:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-
-    #gtw {
-        padding: 12px;
-        box-sizing: border-box;
-        resize: vertical;
-        font-size: x-large;
-    }
-
-    #res {
-        font-size: x-large;
-    }
-
-    span {
-        word-wrap: normal;
-        display: inline-block;
-    }
-
-    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-    @media (max-width: 600px) {
-        .col-25, .col-75, .col-33, input {
-            width: 100%;
-            margin-top: 0;
+            $('#gtw').click(function () {
+                var data = '{"minlen": ' + $('#minlen').val()
+                    + ', "maxlen": ' + $('#maxlen').val()
+                    + ', "chrset": "' + $('#chrset').val() + '"}';
+                $('#res').html('Loading...');
+                $.ajax({
+                    type: "POST",
+                    url: '{% url 'getwordgen' %}',
+                    data: data
+                }).done(function (res) {
+                    $('#res').html('');
+                    var cnt = res.count;
+                    if (cnt <= 0) {
+                        $('#res').html('Sorry! Nothing found :(');
+                    }
+                    else {
+                        for (var i = 0; i < cnt; i++) {
+                            $('#res').append('<a href="#" data-placement="bottom" data-toggle="popover" data-content="Translating..." data-trigger="focus" class="wrdlst">'
+                                + res['w' + (i + 1).toString()] + '</a> ');
+                        }
+                        $('[data-toggle="popover"]').popover({'html': true});
+                    }
+                    $('.wrdlst').click(function () {
+                        var dom = $(this);
+                        if (!(dom.attr('loaded'))) {
+                            var sourceText = dom[0].innerText;
+                            var sourceLang = 'en';
+                            var targetLang = 'vi';
+                            var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
+                                + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
+                            $.get(url, function (data) {
+                                console.log(data);
+                                var r = data[0][0][0];
+                                var s = data[0][0][1];
+                                dom.attr({'data-content': '<a target="_blank" title="View on google translate" href="https://translate.google.com/#en/vi/'
+                                    + s
+                                    +'">'+ r + ' <small><span class="glyphicon glyphicon-new-window"></span></small></a>'
+                                    , 'loaded': 'loaded'});
+                                dom.popover('show');
+                            });
+                        }
+                    })
+                });
+            });
+        </script>
+    </body>
+    <style>
+        *, h2 {
+            font-family: 'Vollkorn', serif;
+            box-sizing: border-box;
         }
-        .pad {
-            display: none;
+        #res {
+            font-size: x-large;
         }
-    }
-</style>
+        .instructions {
+            font-size: large;
+        }
+    </style>
 </html>

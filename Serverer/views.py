@@ -11,6 +11,7 @@ import json
 import itertools
 from MusicServer.settings import BASE_DIR
 
+
 # Create your views here.
 
 
@@ -26,7 +27,8 @@ def getinfo(request):
             stt += 1
             tag = TinyTag.get(root + '/' + f)
             duration = int(tag.duration)
-            info = {'name': tag.title, 'artist': tag.artist, 'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
+            info = {'name': tag.title, 'artist': tag.artist,
+                    'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
             x[str(stt)] = info
     x['count'] = stt
     return JsonResponse(x)
@@ -47,7 +49,7 @@ def wordgen(request):
         maxlen = 1
     try:
         chrset = str(bd['chrset'])
-    except KeyError:
+    except:
         chrset = '1'
     for i in range(minlen, maxlen + 1):
         for ch in list(itertools.permutations(chrset, i)):
