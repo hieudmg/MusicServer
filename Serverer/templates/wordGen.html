@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <title>Word Gen</title>
+</head>
+<body>
+    <h2>Generate the words!</h2>
+    <div class="container">
+        <div class="row">
+            <label class="col-25" for="chrset">Characters</label>
+            <input class="col-75" type="text" id="chrset" maxlength="10">
+        </div>
+        <div class="row">
+            <label class="col-25" for="minlen">Min word length</label>
+            <select class="col-75" id="minlen">
+                {% for num in '123456789' %}
+                    <option>{{ num }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <label class="col-25" for="maxlen">Max word length</label>
+            <select class="col-75" id="maxlen">
+                {% for num in '123456789' %}
+                    <option>{{ num }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <br><br>
+            <div class="col-33 pad"></div>
+            <button class="col-33" id="gtw">Get the words!</button>
+            <div class="col-33 pad"></div>
+        </div>
+    </div>
+    <br>
+    <div class="container">Result: <div id="res"></div></div>
+    <script>
+        $('#gtw').click(function () {
+            var data = '{"minlen": ' + $('#minlen').val()
+                + ', "maxlen": ' + $('#maxlen').val()
+                + ', "chrset": "' + $('#chrset').val() + '"}';
+            $('#res').html('Loading...');
+            $.ajax({
+                type: "POST",
+                url: '{% url 'getwordgen' %}',
+                data: data
+            }).done(function (res) {
+            $('#res').html('');
+                var cnt = res.count;
+                if (cnt <= 0) {
+                    $('#res').html('Sorry! Nothing found :(');
+                }
+                else
+                    for (var i = 0; i < cnt; i++) {
+                        $('#res').append('<span>' + res['w' + (i + 1).toString()] + '&nbsp;&nbsp;&nbsp;</span>');
+                    }
+            });
+        });
+    </script>
+</body>
+<style>
+    * {
+        font-family: 'Courgette', cursive;
+        box-sizing: border-box;
+    }
+
+    input, select, textarea{
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        resize: vertical;
+    }
+
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+    }
+
+    .col-33 {
+        float: left;
+        width: 33.33333333%;
+        margin-top: 6px;
+    }
+
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    #gtw {
+        padding: 12px;
+        box-sizing: border-box;
+        resize: vertical;
+        font-size: x-large;
+    }
+
+    #res {
+        font-size: x-large;
+    }
+
+    span {
+        word-wrap: normal;
+        display: inline-block;
+    }
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media (max-width: 600px) {
+        .col-25, .col-75, .col-33, input {
+            width: 100%;
+            margin-top: 0;
+        }
+        .pad {
+            display: none;
+        }
+    }
+</style>
+</html>
