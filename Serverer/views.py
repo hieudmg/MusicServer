@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.exceptions import FieldDoesNotExist
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from os import walk
@@ -9,7 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from tinytag import TinyTag
 import json
 import itertools
-from MusicServer.settings import BASE_DIR
+from MusicServer import settings
+from models import *
 
 
 # Create your views here.
@@ -21,22 +23,28 @@ def home(request):
 
 def getinfo(request):
     x = {}
-    stt = 0
-    for root, dirs, files in walk(BASE_DIR + '/Serverer/Resources/Music'):
-        for f in files:
-            stt += 1
-            tag = TinyTag.get(root + '/' + f)
-            duration = int(tag.duration)
-            info = {'name': tag.title, 'artist': tag.artist,
-                    'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
-            x[str(stt)] = info
-    x['count'] = stt
+    order = request.GET.get('order', 'title')
+    pgsize = int(request.GET.get('pgsize', 5))
+    pg = int(request.GET.get('pg', 0))
+    stt = pg*pgsize
+    try:
+        Song._meta.get_field(order)
+    except FieldDoesNotExist:
+        order = 'title'
+
+    song_list = Song.objects.order_by(order)[(pgsize*pg):(pgsize*(pg + 1))]
+    for song in song_list:
+        stt += 1
+        duration = song.duration
+        x[str(stt)] = {'name': song.title, 'artist': song.artist,
+                       'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
+    x['count'] = Song.objects.count()
     return JsonResponse(x)
 
 
 @csrf_exempt
 def wordgen(request):
-    data = json.load(open(BASE_DIR + '/Serverer/Resources/json/words_dictionary.json'))
+    data = json.load(open(settings.BASE_DIR + '/Serverer/Resources/json/words_dictionary.json'))
     wl = []
     bd = json.loads(request.body)
     try:
@@ -69,3 +77,14 @@ def wordgen(request):
 
 def worgenfront(request):
     return render(request, 'wordGen.html')
+
+
+def refreshdb():
+    count = 0
+    Song.objects.all().delete()
+    for root, dirs, files in walk(settings.BASE_DIR + '/Serverer/Resources/Music'):
+        for f in files:
+            count += 1
+            song_tag = TinyTag.get(root + '/' + f)
+            song = Song(title=song_tag.title, artist=song_tag.artist, duration=int(song_tag.duration))
+            song.save()
