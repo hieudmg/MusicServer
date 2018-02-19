@@ -3,16 +3,12 @@
     {% include 'includes/head.html' %}
     <title>Word Gen</title>
     <body class="container">
-        <h2 class="page-header">Generate the words!</h2>
-        <div class="instructions">
-            <div>Enter the characters of the game below. E.g. "odvle" for 'o', 'd', 'l', 'v', 'e' set.</div>
-            <div>Then select the shortest and the longest length of words in the game.</div>
-            <div>Finally simple click <button class="btn btn-sm btn-primary">Get the words!</button> button and wait for a couple of blinks.</div>
-            <div>Click any word for its meaning.</div>
-            <div>Have fun!</div>
-            <div>Powered by &nbsp;<a href="https://translate.google.com/" target="_blank"><span class="glyphicon glyphicon-copyright-mark"></span> Google Translate</a></div>
-        </div>
-        <br>
+        <h2 class="page-header">
+            Generate the words!
+            <a class="primary" data-toggle="modal" href="#ins" aria-expanded="false" aria-controls="ins">
+            <span class="glyphicon glyphicon-question-sign"></span></a>
+        </h2>
+
         <form onsubmit="return false">
             {% csrf_token %}
             <div class="row">
@@ -66,13 +62,24 @@
                         $('#res').html('Sorry! Nothing found :(');
                     }
                     else {
-                        for (var i = 0; i < cnt; i++) {
-                            $('#res').append('<a href="#" data-placement="bottom" data-toggle="popover" data-content="Translating..." data-trigger="focus" class="wrdlst">'
-                                + res['w' + (i + 1).toString()] + '</a> ');
+                        var rl = ['adj', 'adv', 'noun', 'verb'];
+                        for (var ri in rl) {
+                            var role = rl[ri];
+                            var r = res[role];
+                            var rcnt = r['count'];
+                            if (rcnt > 0) {
+                                $('#res').append('<small>' + role + ':<br></small>');
+                                for (var i = 0; i < rcnt; i++) {
+                                    $('#res').append('<a href="#" data-placement="top" data-toggle="popover" data-content="Translating..." data-trigger="focus" class="wrdlst">'
+                                        + r['w' + i.toString()] + '</a> ');
+                                }
+                                $('#res').append('<br>');
+                            }
                         }
                         $('[data-toggle="popover"]').popover({'html': true});
                     }
-                    $('.wrdlst').click(function () {
+                    $('.wrdlst').click(function (e) {
+                        e.preventDefault();
                         var dom = $(this);
                         if (!(dom.attr('loaded'))) {
                             var sourceText = dom[0].innerText;
@@ -95,6 +102,26 @@
                 });
             });
         </script>
+        <div class="instructions modal fade" id="ins" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h2>Instructions</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div>Enter the characters of the game, e.g. "odvle" for 'o', 'd', 'l', 'v', 'e' set.</div>
+                            <div>Then select the shortest and the longest length of words in the game.</div>
+                            <div>Finally simple click <button class="btn btn-sm btn-primary">Get the words!</button> button and wait for a couple of blinks.</div>
+                            <div>Click any word for its meaning.</div>
+                            <div>Have fun!</div>
+                            <div>Powered by &nbsp;<a href="https://translate.google.com/" target="_blank"><span class="glyphicon glyphicon-copyright-mark"></span> Google Translate</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     <style>
         *, h2 {
