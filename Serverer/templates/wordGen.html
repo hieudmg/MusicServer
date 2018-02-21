@@ -9,96 +9,81 @@
             <span class="glyphicon glyphicon-question-sign"></span></a>
         </h2>
 
-        <form onsubmit="return false">
+        <form class="container" onsubmit="return false">
             {% csrf_token %}
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
-                    <label for="chrset">Characters</label>
-                    <input class="form-control" type="text" id="chrset" maxlength="10" placeholder="odvle">
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
-                    <label for="minlen">Min word length</label>
-                    <select class="form-control" id="minlen">
-                        {% for num in '123456789' %}
-                            <option>{{ num }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-group-lg">
-                    <label  for="maxlen">Max word length</label>
-                    <select class="form-control" id="maxlen">
-                        {% for num in '123456789' %}
-                            <option>{{ num }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <button type="submit" formmethod="post" class="btn btn-primary btn-lg center-block" id="gtw">Get the words!</button>
+            <label for="chrset">Characters</label>
+            <div class="input-group">
+                <input class="form-control input-lg" type="text" id="chrset" maxlength="10" placeholder="odvle">
+                <span class="input-group-btn">
+                    <button type="submit" formmethod="post" class="btn btn-lg btn-default" id="gtw">Get the words!</button>
+                </span>
             </div>
         </form>
         <br>
-        <div class="container">Result: <div id="res"></div></div>
+        <div class="container">Result:<div class="panel-group" id="res"></div></div>
         <script>
             $('document').ready(function () {
-               $('#minlen').find('option:eq(2)').attr('selected', 'selected');
-               $('#maxlen').find('option:eq(4)').attr('selected', 'selected');
+               $('#minlen').find('option:eq(0)').attr('selected', 'selected');
+               $('#maxlen').find('option:eq(2)').attr('selected', 'selected');
             });
 
             $('#gtw').click(function () {
-                var data = '{"minlen": ' + $('#minlen').val()
-                    + ', "maxlen": ' + $('#maxlen').val()
-                    + ', "chrset": "' + $('#chrset').val() + '"}';
+                var data = '{"chrset": "' + $('#chrset').val() + '"}';
                 $('#res').html('Loading...');
                 $.ajax({
                     type: "POST",
                     url: '{% url 'getwordgen' %}',
                     data: data
                 }).done(function (res) {
+                    var coll = '<div class="panel panel-default"><div class="panel-heading" data-toggle="collapse" data-target="#__coll_id__" data-parent="#res">'
+                        + '<h4 class="panel-title"><a></a>__title__</h4></div>'
+                        + '<div id="__coll_id__" class="panel-collapse collapse __in__">'
+                        + '<div class="panel-body">__body__</div></div></div>';
                     $('#res').html('');
-                    var cnt = res.count;
+                    var cnt = res['count'];
                     if (cnt <= 0) {
                         $('#res').html('Sorry! Nothing found :(');
                     }
                     else {
-                        var rl = ['adj', 'adv', 'noun', 'verb'];
-                        for (var ri in rl) {
-                            var role = rl[ri];
-                            var r = res[role];
-                            var rcnt = r['count'];
-                            if (rcnt > 0) {
-                                $('#res').append('<small>' + role + ':<br></small>');
-                                for (var i = 0; i < rcnt; i++) {
-                                    $('#res').append('<a href="#" data-placement="top" data-toggle="popover" data-content="Translating..." data-trigger="focus" class="wrdlst">'
-                                        + r['w' + i.toString()] + '</a> ');
-                                }
-                                $('#res').append('<br>');
+                        for (var ti = 0; ti < cnt; ti ++){
+                            var x = res['types'][ti];
+                            var lenx = res['len' + x];
+                            var wordsx = lenx['words'];
+                            var bodyx = '';
+                            for (var ci = 0; ci < lenx['count']; ci++) {
+                                bodyx += '<a href="#" data-placement="top" data-toggle="popover" data-content="Translating..." data-trigger="focus" class="wrdlst">'
+                                    + wordsx[ci] + '</a> ';
                             }
+                            var collx = coll.replace(/__coll_id__/g, 'coll' + x)
+                                .replace(/__title__/g, 'Words with length of ' + x)
+                                .replace(/__body__/g, bodyx);
+                            if (ti === 0) {
+                                collx = collx.replace('__in__', 'in');
+                            }
+                            $('#res').append(collx);
                         }
-                        $('[data-toggle="popover"]').popover({'html': true});
                     }
+                    $('[data-toggle="popover"]').popover({'html': true});
                     $('.wrdlst').click(function (e) {
                         e.preventDefault();
                         var dom = $(this);
                         if (!(dom.attr('loaded'))) {
                             var sourceText = dom[0].innerText;
-                            var sourceLang = 'en';
+                            var sourceLang = 'auto';
                             var targetLang = 'vi';
                             var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
                                 + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
                             $.get(url, function (data) {
-                                console.log(data);
                                 var r = data[0][0][0];
                                 var s = data[0][0][1];
-                                dom.attr({'data-content': '<a target="_blank" title="View on google translate" href="https://translate.google.com/#en/vi/'
-                                    + s
-                                    +'">'+ r + ' <small><span class="glyphicon glyphicon-new-window"></span></small></a>'
+                                dom.attr({'data-content': '<a target="_blank" title="View on google translate" href="https://translate.google.com/#auto/vi/'
+                                    + s +'">'
+                                    + r + ' <small><span class="glyphicon glyphicon-new-window"></span></small></a>'
                                     , 'loaded': 'loaded'});
                                 dom.popover('show');
                             });
                         }
-                    })
+                    });
                 });
             });
         </script>
@@ -112,8 +97,7 @@
                         </div>
                         <div class="modal-body">
                             <div>Enter the characters of the game, e.g. "odvle" for 'o', 'd', 'l', 'v', 'e' set.</div>
-                            <div>Then select the shortest and the longest length of words in the game.</div>
-                            <div>Finally simple click <button class="btn btn-sm btn-primary">Get the words!</button> button and wait for a couple of blinks.</div>
+                            <div>Then simple click <button class="btn btn-sm btn-primary">Get the words!</button> button and wait for a couple of blinks.</div>
                             <div>Click any word for its meaning.</div>
                             <div>Have fun!</div>
                             <div>Powered by &nbsp;<a href="https://translate.google.com/" target="_blank"><span class="glyphicon glyphicon-copyright-mark"></span> Google Translate</a></div>
@@ -133,6 +117,9 @@
         }
         .instructions {
             font-size: large;
+        }
+        .panel-heading :hover {
+            cursor: pointer;
         }
     </style>
 </html>

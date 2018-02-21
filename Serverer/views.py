@@ -9,7 +9,6 @@ from os import walk
 from django.views.decorators.csrf import csrf_exempt
 from tinytag import TinyTag
 import json
-import itertools
 from MusicServer import settings
 from models import *
 
@@ -42,47 +41,74 @@ def getinfo(request):
     return JsonResponse(x)
 
 
+word_set = []
+cur_pos = 0
+
+
+def check_word(cur):
+    global word_set, cur_pos
+    res = [False, False]
+    while cur > word_set[cur_pos]:
+        cur_pos += 1
+    if word_set[cur_pos].startswith(cur):
+        res[0] = True
+        if word_set[cur_pos] == cur:
+            res[1] = True
+    return res
+
+
+def anagram(chrs, cur=''):
+    res = []
+    if len(chrs) == 1:
+        cur = cur + chrs[0]
+        x = check_word(cur)
+        if x[1]:
+            res.extend(cur)
+    else:
+        for ci, cv in enumerate(chrs):
+            cur += cv
+            x = check_word(cur)
+            if x[1]:
+                res.append(cur)
+            if x[0]:
+                res.extend(anagram(chrs[:ci] + chrs[ci + 1:], cur))
+            cur = cur[:-1]
+    return res
+
+
 @csrf_exempt
 def wordgen(request):
+    global word_set, cur_pos
+    re = {}
     bd = json.loads(request.body)
     try:
-        minlen = int(bd['minlen'])
-    except KeyError:
-        minlen = 1
-    try:
-        maxlen = int(bd['maxlen'])
-    except KeyError:
-        maxlen = 1
-    try:
-        chrset = str(bd['chrset'])
+        chrset = str(bd['chrset']).lower()
     except:
-        chrset = '1'
-    generated_word = []
-    re = {'adj': {'count': 0},
-          'adv': {'count': 0},
-          'noun': {'count': 0},
-          'verb': {'count': 0}
-          }
-    count = 0
-
-    for i in range(minlen, maxlen + 1):
-        for ch in list(itertools.permutations(chrset, i)):
-            ch0 = ''.join(ch)
-            generated_word.append(ch0)
-            count += 1
-            if count >= 500:
-                wl = list(Word.objects.filter(name__in=generated_word))
-                for word in wl:
-                    re[word.role]['w' + str(re[word.role]['count'])] = word.name
-                    re[word.role]['count'] += 1
-                count = 0
-                generated_word = []
-        wl = list(Word.objects.filter(name__in=generated_word))
-        for word in wl:
-            re[word.role]['w' + str(re[word.role]['count'])] = word.name
-            re[word.role]['count'] += 1
-        count = 0
-        generated_word = []
+        return re
+    chrset = sorted(chrset)
+    inp = open(settings.BASE_DIR + '/Serverer/Resources/word/word.wd')
+    word_set = []
+    cur_pos = 0
+    for ln in inp:
+        word_set.append(ln.strip())
+    inp.close()
+    reswd = anagram(chrset)
+    reswd = set(reswd)
+    reswd = filter(lambda x: len(x) > 2, reswd)
+    type_arr = []
+    type_count = 0
+    for i in range(3, 10):
+        wi = sorted(filter(lambda x: len(x) == i, reswd))
+        wil = len(wi)
+        if wil > 0:
+            type_count += 1
+            type_arr.append(i)
+            re['len' + str(i)] = {
+                'count': str(wil),
+                'words': wi
+            }
+    re['count'] = type_count
+    re['types'] = type_arr
     return JsonResponse(re)
 
 
@@ -101,19 +127,3 @@ def refreshdb():
             song = Song(title=song_tag.title, artist=song_tag.artist, duration=int(song_tag.duration))
             song.save()
     res['song'] = count
-
-    count = 0
-    Word.objects.all().delete()
-
-    f = open(settings.BASE_DIR + '/Serverer/Resources/word/word.wd')
-    wl = []
-    for ln in f:
-        count += 1
-        pl = ln[:-1].split('|')
-        try:
-            wl.append(Word(name=pl[0], role=pl[1]))
-        except IndexError:
-            pass
-    Word.objects.bulk_create(wl)
-    res['word'] = count
-    print(res)
