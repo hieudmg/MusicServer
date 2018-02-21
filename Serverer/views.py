@@ -63,7 +63,7 @@ def anagram(chrs, cur=''):
         cur = cur + chrs[0]
         x = check_word(cur)
         if x[1]:
-            res.extend(cur)
+            res.append(cur)
     else:
         for ci, cv in enumerate(chrs):
             cur += cv
@@ -84,8 +84,9 @@ def wordgen(request):
     try:
         chrset = str(bd['chrset']).lower()
     except:
-        return re
-    chrset = sorted(chrset)
+        chrset = ''
+
+    chrset = ''.join(sorted(chrset))
     inp = open(settings.BASE_DIR + '/Serverer/Resources/word/word.wd')
     word_set = []
     cur_pos = 0
