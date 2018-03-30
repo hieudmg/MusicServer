@@ -25,19 +25,21 @@ def getinfo(request):
     order = request.GET.get('order', 'title')
     pgsize = int(request.GET.get('pgsize', 5))
     pg = int(request.GET.get('pg', 0))
-    stt = pg * pgsize
     try:
         Song._meta.get_field(order)
     except FieldDoesNotExist:
         order = 'title'
 
     song_list = Song.objects.order_by(order)[(pgsize * pg):(pgsize * (pg + 1))]
+    data = []
     for song in song_list:
-        stt += 1
         duration = song.duration
-        x[str(stt)] = {'name': song.title, 'artist': song.artist,
-                       'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
+        item = {'name': song.title, 'artist': song.artist,
+                'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
+        data.append(item)
+    x['data'] = data
     x['count'] = Song.objects.count()
+    x['page'] = pg
     return JsonResponse(x)
 
 
