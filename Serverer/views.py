@@ -130,3 +130,8 @@ def refreshdb():
             song = Song(title=song_tag.title, artist=song_tag.artist, duration=int(song_tag.duration))
             song.save()
     res['song'] = count
+
+
+def rdb(request):
+    refreshdb()
+    return HttpResponse("OK")

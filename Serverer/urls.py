@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^getinfo/$', views.getinfo, name='getinfo'),
     url(r'^wordgen/$', views.worgenfront, name='wordgenfront'),
     url(r'^getwordgen/$', views.wordgen, name='getwordgen'),
+    url(r'^rdb/$', views.rdb, name='rdb'),
 ]
