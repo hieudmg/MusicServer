@@ -7,8 +7,8 @@ from django.http import JsonResponse, HttpResponse
 from os import walk
 
 from django.views.decorators.csrf import csrf_exempt
-from tinytag import TinyTag
 import json
+from tinytag import TinyTag
 from MusicServer import settings
 from models import *
 
@@ -23,12 +23,15 @@ def home(request):
 def getinfo(request):
     x = {}
     order = request.GET.get('order', 'title')
-    pgsize = int(request.GET.get('pgsize', 5))
+    pgsize = int(request.GET.get('pgsize', 20))
     pg = int(request.GET.get('pg', 0))
     try:
         Song._meta.get_field(order)
     except FieldDoesNotExist:
         order = 'title'
+
+    import locale
+    locale.setlocale(locale.LC_COLLATE, "vi_VN")
 
     song_list = Song.objects.order_by(order)[(pgsize * pg):(pgsize * (pg + 1))]
     data = []
@@ -126,8 +129,8 @@ def refreshdb():
     for root, dirs, files in walk(settings.BASE_DIR + '/Serverer/Resources/Music'):
         for f in files:
             count += 1
-            song_tag = TinyTag.get(root + '/' + f)
-            song = Song(title=song_tag.title, artist=song_tag.artist, duration=int(song_tag.duration))
+            song_file = TinyTag.get(root + '/' + f)
+            song = Song(title=song_file.title, artist=song_file.artist, duration=int(song_file.duration))
             song.save()
     res['song'] = count
 
