@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.exceptions import FieldDoesNotExist
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from os import walk
@@ -20,20 +19,78 @@ def home(request):
     return render(request, 'Home.html')
 
 
+def cmpx(x1, x2):
+    return (x1 > x2) - (x1 < x2)
+
+
+def cmpc(c1, c2):
+    chrs = [u"àảãáạăằẳẵắặâầẩẫấậ",
+            u"đ",
+            u"èẻẽéẹêềểễếệ",
+            u"ìỉĩíị",
+            u"òỏõóọôồổỗốộơờởỡớợ",
+            u"ùủũúụưừửữứự",
+            u"ỳỷỹýỵ"]
+    kqua = u"adeiouy"
+
+    def bodau(a):
+        a += u""
+        for i, v in enumerate(chrs):
+            if a in v:
+                return kqua[i]
+        return a
+
+    def pos(a):
+        for i, v in enumerate(chrs):
+            if a in v:
+                return i
+        return -1
+
+    c1 = c1.lower()
+    c2 = c2.lower()
+    if c1 == c2:
+        return 0
+    p1 = pos(c1)
+    p2 = pos(c2)
+    if p1 == -1 and p2 == -1:
+        return cmpx(c1, c2)
+    elif p1 != -1 and p2 != -1:
+        if p1 == p2:
+            cs = chrs[p1]
+            return cmpx(cs.find(c1), cs.find(c2))
+        else:
+            return cmpx(p1, p2)
+    elif p1 != -1 and p2 == -1:
+        if bodau(c1) >= c2:
+            return 1
+        else:
+            return -1
+    else:  # p1 == -1 and p2 != -1
+        if c1 > bodau(c2):
+            return 1
+        else:
+            return -1
+
+
+def cmps(s1, s2):
+    for i in range(0, min(len(s1), len(s2))):
+        if s1[i] != s2[i]:
+            return cmpc(s1[i], s2[i])
+    return cmpx(len(s1), len(s2))
+
+
+def cmp_song(s1, s2):
+    return cmps(s1.title, s2.title)
+
+
 def getinfo(request):
     x = {}
-    order = request.GET.get('order', 'title')
     pgsize = int(request.GET.get('pgsize', 20))
     pg = int(request.GET.get('pg', 0))
-    try:
-        Song._meta.get_field(order)
-    except FieldDoesNotExist:
-        order = 'title'
 
-    import locale
-    locale.setlocale(locale.LC_COLLATE, "vi_VN")
-
-    song_list = Song.objects.order_by(order)[(pgsize * pg):(pgsize * (pg + 1))]
+    song_list = list(Song.objects.all())
+    song_list.sort(cmp_song)
+    song_list = song_list[pg * pgsize:pg * pgsize + pgsize]
     data = []
     for song in song_list:
         duration = song.duration
@@ -41,7 +98,8 @@ def getinfo(request):
                 'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
         data.append(item)
     x['data'] = data
-    x['count'] = Song.objects.count()
+    x['count'] = len(song_list)
+    x['total'] = Song.objects.count()
     x['page'] = pg
     return JsonResponse(x)
 

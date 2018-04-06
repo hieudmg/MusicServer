@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Serverer/Resources/Music/Ahrix - Nova.mp3" afterPath="$PROJECT_DIR$/Serverer/Resources/Music/Ahrix - Nova.mp3" />
-      <change beforePath="$PROJECT_DIR$/Serverer/Resources/Music/Alan Walker - Force NCS Release.mp3" afterPath="$PROJECT_DIR$/Serverer/Resources/Music/Alan Walker - Force NCS Release.mp3" />
-      <change beforePath="$PROJECT_DIR$/Serverer/Resources/Music/Giai Dieu Tinh Yeu - Thuy Chi [MP3 128kbps].mp3" afterPath="$PROJECT_DIR$/Serverer/Resources/Music/Giai Dieu Tinh Yeu - Thuy Chi [MP3 128kbps].mp3" />
-      <change beforePath="$PROJECT_DIR$/Serverer/Resources/Music/Martin Garrix - Animals (Official Video).mp3" afterPath="$PROJECT_DIR$/Serverer/Resources/Music/Martin Garrix - Animals (Official Video).mp3" />
       <change beforePath="$PROJECT_DIR$/Serverer/views.py" afterPath="$PROJECT_DIR$/Serverer/views.py" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
     </list>
     <ignored path="Serverer/migrations/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +36,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Serverer/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="387">
+              <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
               </folding>
@@ -74,7 +68,7 @@
       <file leaf-file-name="Home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Serverer/templates/Home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
+            <state relative-caret-position="210">
               <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
               <folding />
             </state>
@@ -166,17 +160,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
+      <pane id="Scratches">
         <subPane>
           <expand>
             <path>
-              <item name="MusicServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MusicServer" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
             <path>
-              <item name="MusicServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MusicServer" type="462c0819:PsiDirectoryNode" />
-              <item name="Serverer" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="com.intellij.database" type="61db50fb:ScratchProjectViewPane$MyPsiNode" />
             </path>
           </expand>
           <select />
@@ -203,17 +197,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches">
+      <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="MusicServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MusicServer" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-              <item name="com.intellij.database" type="61db50fb:ScratchProjectViewPane$MyPsiNode" />
+              <item name="MusicServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MusicServer" type="462c0819:PsiDirectoryNode" />
+              <item name="Serverer" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -366,7 +360,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522428575147</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Testing locale">
+      <created>1522910493544</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1522910493544</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -388,7 +389,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.49570355" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293979" sideWeight="0.49785176" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17669173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17937702" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -421,7 +422,8 @@
     <MESSAGE value="Edit: Wordgen mini-project hot-fix some bugs" />
     <MESSAGE value="Edit: Change getinfo return data structure" />
     <MESSAGE value="Nothing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nothing" />
+    <MESSAGE value="Testing locale" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing locale" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -440,7 +442,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -793,7 +794,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="1728" column="50" lean-forward="false" selection-start-line="1728" selection-start-column="48" selection-end-line="1728" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -801,7 +801,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -815,7 +814,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Serverer/templates/Home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
+        <state relative-caret-position="210">
           <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
           <folding />
         </state>
@@ -825,16 +824,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Serverer/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="387">
+          <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
