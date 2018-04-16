@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Serverer/models.py" afterPath="$PROJECT_DIR$/Serverer/models.py" />
-      <change beforePath="$PROJECT_DIR$/Serverer/urls.py" afterPath="$PROJECT_DIR$/Serverer/urls.py" />
-      <change beforePath="$PROJECT_DIR$/Serverer/views.py" afterPath="$PROJECT_DIR$/Serverer/views.py" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
     </list>
     <ignored path="Serverer/migrations/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -387,7 +383,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522995151980</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Update sorting algorithm">
+      <created>1523858778234</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1523858778234</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
