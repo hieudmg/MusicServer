@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from os import walk
 
 from django.views.decorators.csrf import csrf_exempt
@@ -94,8 +95,10 @@ def getinfo(request):
     data = []
     for song in song_list:
         duration = song.duration
-        item = {'name': song.title, 'artist': song.artist,
-                'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60)}
+        item = {'name': song.title.title(),
+                'artist': song.artist,
+                'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60),
+                'id': song.id}
         data.append(item)
     x['data'] = data
     x['count'] = len(song_list)
@@ -180,6 +183,16 @@ def worgenfront(request):
     return render(request, 'wordGen.html')
 
 
+def getmp3(request):
+    song_id = int(request.GET.get('id', 1))
+    song = Song.objects.get(id=song_id)
+    fs = FileSystemStorage()
+    with fs.open(song.path) as mp3:
+        response = HttpResponse(mp3,
+                                content_type='audio/mpeg')
+        return response
+
+
 def refreshdb():
     res = {'status': 'ok'}
     count = 0
@@ -187,8 +200,9 @@ def refreshdb():
     for root, dirs, files in walk(settings.BASE_DIR + '/Serverer/Resources/Music'):
         for f in files:
             count += 1
-            song_file = TinyTag.get(root + '/' + f)
-            song = Song(title=song_file.title, artist=song_file.artist, duration=int(song_file.duration))
+            path = root + '/' + f
+            song_file = TinyTag.get(path)
+            song = Song(title=song_file.title, artist=song_file.artist, duration=int(song_file.duration), path=path)
             song.save()
     res['song'] = count
 
