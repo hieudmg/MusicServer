@@ -184,8 +184,8 @@ def worgenfront(request):
 
 
 def getmp3(request):
-    song_id = int(request.GET.get('id', 1))
-    song = Song.objects.get(id=song_id)
+    song_id = request.GET.get('id', 1)
+    song = Song.objects.get(file_hash=song_id)
     fs = FileSystemStorage()
     with fs.open(song.path) as mp3:
         response = HttpResponse(mp3,
