@@ -105,3 +105,4 @@ venv.bak/
 
 # resources
 *.mp3
+*.sqlite3

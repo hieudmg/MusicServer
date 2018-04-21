@@ -98,7 +98,7 @@ def getinfo(request):
         item = {'name': song.title.title(),
                 'artist': song.artist,
                 'duration': '{:02d}:{:02d}'.format(duration / 60, duration % 60),
-                'id': song.id}
+                'id': song.file_hash}
         data.append(item)
     x['data'] = data
     x['count'] = len(song_list)
@@ -203,6 +203,11 @@ def refreshdb():
             path = root + '/' + f
             song_file = TinyTag.get(path)
             song = Song(title=song_file.title, artist=song_file.artist, duration=int(song_file.duration), path=path)
+            import hashlib
+            hasher = hashlib.md5()
+            hash_string = song.title + song.artist + str(song.duration)
+            hasher.update(hash_string.encode('utf-8'))
+            song.file_hash = (hasher.hexdigest())
             song.save()
     res['song'] = count
 

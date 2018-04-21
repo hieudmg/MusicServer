@@ -6,7 +6,8 @@ from django.db import models
 
 # Create your models here.
 class Song(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, default='')
     duration = models.IntegerField(default=0)
-    artist = models.CharField(max_length=50)
-    path = models.CharField(max_length=200, default="")
+    artist = models.CharField(max_length=50, default='')
+    path = models.CharField(max_length=200, default='')
+    file_hash = models.CharField(max_length=64, default='', primary_key=True)
