@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import json
+import unicodedata
 from os import walk
 
 from django.core.files.storage import FileSystemStorage
@@ -44,10 +45,7 @@ def bodau(a):
 
 
 def nomoreunicode(code):
-    res = ''
-    for c in code:
-        res += bodau(c)
-    return res
+    return unicodedata.normalize('NFKD', code).encode('ASCII', 'ignore')
 
 
 def cmpc(c1, c2):
