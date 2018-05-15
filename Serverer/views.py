@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
+import json
 from os import walk
 
+from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-import json
 from tinytag import TinyTag
+
 from MusicServer import settings
 from models import *
 
@@ -24,23 +25,25 @@ def cmpx(x1, x2):
     return (x1 > x2) - (x1 < x2)
 
 
+chrs = [u"àảãáạăằẳẵắặâầẩẫấậ",
+        u"đ",
+        u"èẻẽéẹêềểễếệ",
+        u"ìỉĩíị",
+        u"òỏõóọôồổỗốộơờởỡớợ",
+        u"ùủũúụưừửữứự",
+        u"ỳỷỹýỵ"]
+kqua = u"adeiouy"
+
+
+def bodau(a):
+    a += u""
+    for i, v in enumerate(chrs):
+        if a in v:
+            return kqua[i]
+    return a
+
+
 def cmpc(c1, c2):
-    chrs = [u"àảãáạăằẳẵắặâầẩẫấậ",
-            u"đ",
-            u"èẻẽéẹêềểễếệ",
-            u"ìỉĩíị",
-            u"òỏõóọôồổỗốộơờởỡớợ",
-            u"ùủũúụưừửữứự",
-            u"ỳỷỹýỵ"]
-    kqua = u"adeiouy"
-
-    def bodau(a):
-        a += u""
-        for i, v in enumerate(chrs):
-            if a in v:
-                return kqua[i]
-        return a
-
     def pos(a):
         for i, v in enumerate(chrs):
             if a in v:
@@ -84,12 +87,13 @@ def cmp_song(s1, s2):
     return cmps(s1.title, s2.title)
 
 
-def getinfo(request):
+def getmp3info(request):
     x = {}
     pgsize = int(request.GET.get('pgsize', 20))
     pg = int(request.GET.get('pg', 0))
+    querry = request.GET.get('querry', u'')
 
-    song_list = list(Song.objects.all())
+    song_list = list(Song.objects.filter(querry__contains=querry))
     song_list.sort(cmp_song)
     song_list = song_list[pg * pgsize:pg * pgsize + pgsize]
     data = []
@@ -123,21 +127,21 @@ def check_word(cur):
     return res
 
 
-def anagram(chrs, cur=''):
+def anagram(chars, cur=''):
     res = []
-    if len(chrs) == 1:
-        cur = cur + chrs[0]
+    if len(chars) == 1:
+        cur = cur + chars[0]
         x = check_word(cur)
         if x[1]:
             res.append(cur)
     else:
-        for ci, cv in enumerate(chrs):
+        for ci, cv in enumerate(chars):
             cur += cv
             x = check_word(cur)
             if x[1]:
                 res.append(cur)
             if x[0]:
-                res.extend(anagram(chrs[:ci] + chrs[ci + 1:], cur))
+                res.extend(anagram(chars[:ci] + chars[ci + 1:], cur))
             cur = cur[:-1]
     return res
 
@@ -188,8 +192,7 @@ def getmp3(request):
     song = Song.objects.get(file_hash=song_id)
     fs = FileSystemStorage()
     with fs.open(song.path) as mp3:
-        response = HttpResponse(mp3,
-                                content_type='audio/mpeg')
+        response = HttpResponse(mp3, content_type='audio/mpeg')
         return response
 
 
@@ -202,7 +205,11 @@ def refreshdb():
             count += 1
             path = root + '/' + f
             song_file = TinyTag.get(path)
-            song = Song(title=song_file.title, artist=song_file.artist, duration=int(song_file.duration), path=path)
+            song = Song(title=song_file.title,
+                        artist=song_file.artist,
+                        duration=int(song_file.duration),
+                        querry=song_file.title + song_file.artist,
+                        path=path)
             import hashlib
             hasher = hashlib.md5()
             hash_string = song.title + song.artist + str(song.duration)
