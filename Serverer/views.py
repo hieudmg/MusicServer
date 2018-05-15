@@ -43,6 +43,13 @@ def bodau(a):
     return a
 
 
+def nomoreunicode(code):
+    res = ''
+    for c in code:
+        res += bodau(c)
+    return res
+
+
 def cmpc(c1, c2):
     def pos(a):
         for i, v in enumerate(chrs):
@@ -91,9 +98,10 @@ def getmp3info(request):
     x = {}
     pgsize = int(request.GET.get('pgsize', 20))
     pg = int(request.GET.get('pg', 0))
-    querry = request.GET.get('querry', u'')
+    query = nomoreunicode(request.GET.get('query', u''))
+    print(query)
 
-    song_list = list(Song.objects.filter(querry__contains=querry))
+    song_list = list(Song.objects.filter(query__contains=query))
     song_list.sort(cmp_song)
     song_list = song_list[pg * pgsize:pg * pgsize + pgsize]
     data = []
@@ -208,7 +216,7 @@ def refreshdb():
             song = Song(title=song_file.title,
                         artist=song_file.artist,
                         duration=int(song_file.duration),
-                        querry=song_file.title + song_file.artist,
+                        query=nomoreunicode((u'' + song_file.title + song_file.artist)),
                         path=path)
             import hashlib
             hasher = hashlib.md5()
