@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 import json
 import unicodedata
+import urllib
 from os import walk
 
+from PIL import Image
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -12,10 +14,8 @@ from django.views.decorators.csrf import csrf_exempt
 from tinytag import TinyTag
 
 from MusicServer import settings
-from models import *
-
-
 # Create your views here.
+from Serverer.models import Song
 
 
 def home(request):
@@ -228,3 +228,18 @@ def refreshdb():
 def rdb(request):
     refreshdb()
     return HttpResponse("OK")
+
+
+def surviv(request):
+    url = request.GET.get('path', '')
+    if url != '':
+        try:
+            with open(settings.BASE_DIR + '/Serverer/Resources/assets/' + url.split("/")[-1], "rb") as f:
+                return HttpResponse(f.read(), content_type="image")
+        except IOError:
+            red = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
+            response = HttpResponse(content_type="image")
+            red.save(response, "PNG")
+            return response
+    resp = urllib.urlopen("https://" + url)
+    return HttpResponse(resp, content_type="image")
