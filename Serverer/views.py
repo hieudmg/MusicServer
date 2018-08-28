@@ -243,3 +243,10 @@ def surviv(request):
             return response
     resp = urllib.urlopen("https://" + url)
     return HttpResponse(resp, content_type="image")
+
+
+def ddt(request):
+    fs = FileSystemStorage()
+    with fs.open(settings.BASE_DIR + '/Serverer/Resources/js/Main.max.js') as js:
+        response = HttpResponse(js, content_type='application/javascript')
+        return response

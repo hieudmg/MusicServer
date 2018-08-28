@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^getwordgen/$', views.wordgen, name='getwordgen'),
     url(r'^rdb/$', views.rdb, name='rdb'),
     url(r'^getmp3/$', views.getmp3, name='getmp3'),
-    url(r'^surviv/$', views.surviv, name='surviv')
+    url(r'^surviv/$', views.surviv, name='surviv'),
+    url(r'^ddt/Main.max.js/$', views.ddt, name='ddt')
 ]

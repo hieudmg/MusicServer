@@ -22208,7 +22208,7 @@ var AppleGameModel=(function(){
 			configItem.TimeOut=item.TimeOut;
 			configItem.WindMin=item.WindMin;
 			configItem.WindMax=item.WindMax;
-			configItem.LineLength=item.AuxiliaryLineLength;
+            configItem.LineLength = 50;//item.AuxiliaryLineLength;
 			configItem.Fruit=item.Fruit;
 			configItem.ChildPosition=item.ChildPosition;
 			configItem.Wood=item.Wood;
@@ -23597,7 +23597,7 @@ var PVPModel=(function(){
 		for(var $each_item in arr){
 			item=arr[$each_item];
 			var vo=new PvpVO();
-			vo.AuxiliaryLineLength=item.AuxiliaryLineLength;
+            vo.AuxiliaryLineLength = 50;//item.AuxiliaryLineLength;
 			vo.Division=item.Division;
 			vo.Type=item.Type;
 			vo.Gold=item.Gold;
@@ -68361,12 +68361,12 @@ var BattleScene=(function(_super){
 		if(pvp){
 			pvp=PVPModel.getPvpConfigByTypeAndDivison(type,pvp.Division);
 			if(pvp){
-				count=pvp.AuxiliaryLineLength;
+                count = 50;//pvp.AuxiliaryLineLength;
 			}
 		}
 		if(!count || count<=0)
 			count=10;
-		return count;
+        return 50;//count;
 	}
 
 	__proto.initCurPvpConfig=function(){
@@ -77846,7 +77846,7 @@ var LocalBattleScene=(function(_super){
 
 	__proto.getSampleCount=function(){
 		var data=LocalBattleMgr.getInstance().getDataByRound();
-		return data.LineLength;
+        return 50;//data.LineLength;
 	}
 
 	__proto.updateScene=function(){
