@@ -40,3 +40,12 @@ body {
     font-style: italic;
     padding-top: 5%;
 }
+
+.landing-footer {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    font-size: 1.5vw;
+    font-family: 'Mali', cursive;
+    color: white;
+}
