@@ -250,3 +250,14 @@ def ddt(request):
     with fs.open(settings.BASE_DIR + '/Serverer/Resources/js/Main.max.js') as js:
         response = HttpResponse(js, content_type='application/javascript')
         return response
+
+
+def poke(request):
+    fs = FileSystemStorage()
+    with fs.open(settings.BASE_DIR + '/Serverer/Resources/js/project.max.js') as js:
+        response = HttpResponse(js, content_type='application/javascript')
+        return response
+
+
+def landing(request):
+    return render(request, 'Landing/landing.html')

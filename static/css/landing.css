@@ -1,0 +1,42 @@
+body {
+    background-image: linear-gradient(#4e2d65, #915cb6);
+    height: 100%;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 10vw;
+    color: white;
+    margin: auto;
+    font-family: 'Mali', cursive;
+}
+
+.sub-title {
+    text-align: center;
+    font-size: 2vw;
+    color: white;
+    margin: auto;
+    font-family: 'Mali', cursive;
+}
+
+.sub-title-padding {
+    padding-left: 20%;
+}
+
+.content {
+    text-align: center;
+    font-size: 3vw;
+    color: white;
+    margin: auto;
+    font-family: 'Mali', cursive;
+}
+
+.quote {
+    text-align: center;
+    font-size: 1.5vw;
+    color: white;
+    margin: auto;
+    font-family: 'Mali', cursive;
+    font-style: italic;
+    padding-top: 5%;
+}
