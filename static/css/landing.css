@@ -1,22 +1,18 @@
 body {
-    background-image: linear-gradient(#4e2d65, #915cb6);
-    height: 100%;
+    align-content: center;
+    font-family: 'Mali', cursive;
 }
 
 .main-title {
     text-align: center;
-    font-size: 10vw;
     color: white;
     margin: auto;
-    font-family: 'Mali', cursive;
 }
 
 .sub-title {
     text-align: center;
-    font-size: 2vw;
     color: white;
     margin: auto;
-    font-family: 'Mali', cursive;
 }
 
 .sub-title-padding {
@@ -25,18 +21,14 @@ body {
 
 .content {
     text-align: center;
-    font-size: 3vw;
     color: white;
     margin: auto;
-    font-family: 'Mali', cursive;
 }
 
 .quote {
     text-align: center;
-    font-size: 1.5vw;
     color: white;
     margin: auto;
-    font-family: 'Mali', cursive;
     font-style: italic;
     padding-top: 5%;
 }
@@ -45,7 +37,107 @@ body {
     position: absolute;
     bottom: 5%;
     right: 5%;
-    font-size: 1.5vw;
-    font-family: 'Mali', cursive;
     color: white;
+}
+
+.main-title-txt {
+    font-size: 25vw;
+}
+
+.sub-title-txt {
+    font-size: 6vw;
+}
+
+.content-txt {
+    font-size: 8vw;
+}
+
+.quote-txt {
+    font-size: 4vw;
+}
+
+@media (min-width: 768px) {
+    .main-title-txt {
+        font-size: 15vw;
+    }
+
+    .sub-title-txt {
+        font-size: 2vw;
+    }
+
+    .content-txt {
+        font-size: 3vw;
+    }
+
+    .quote-txt {
+        font-size: 1.5vw;
+    }
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(124deg,
+    #9b1c00, #9b1515, #9b7b14,
+    #969b11, #189b28, #9b0500,
+    #3f679b, #8d009a, #dd00f3) 0% 82%;
+    background-size: 1800% 1800%;
+
+    -webkit-animation: rainbow 18s linear infinite 4s;
+    -moz-animation: rainbow 18s linear infinite 4s;
+    -o-animation: rainbow 18s linear infinite 4s;
+    animation: rainbow 18s linear infinite 4s;
+}
+
+@-webkit-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+    50% {
+        background-position: 100% 19%
+    }
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@-moz-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+    50% {
+        background-position: 100% 19%
+    }
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@-o-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+    50% {
+        background-position: 100% 19%
+    }
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+    50% {
+        background-position: 100% 19%
+    }
+    100% {
+        background-position: 0% 82%
+    }
 }
