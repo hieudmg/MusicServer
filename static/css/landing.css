@@ -1,9 +1,10 @@
 body {
     align-content: center;
-    font-family: 'Mali', cursive;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .main-title {
+    padding-top: 10vh;
     text-align: center;
     color: white;
     margin: auto;
@@ -20,9 +21,13 @@ body {
 }
 
 .content {
-    text-align: center;
     color: white;
     margin: auto;
+    padding: 10px;
+}
+
+.content-container {
+    display: flex;
 }
 
 .quote {
@@ -41,36 +46,47 @@ body {
 }
 
 .main-title-txt {
-    font-size: 25vw;
+    font-size: 15vw;
 }
-
 .sub-title-txt {
-    font-size: 6vw;
+    font-size: 15vw;
 }
-
 .content-txt {
-    font-size: 8vw;
+    font-size: 5vw;
 }
-
 .quote-txt {
-    font-size: 4vw;
+    font-size: 5vw;
 }
-
 @media (min-width: 768px) {
     .main-title-txt {
-        font-size: 15vw;
+        font-size: 12vw;
+    }
+    .sub-title-txt {
+        font-size: 12vw;
+    }
+    .content-txt {
+        font-size: 4vw;
+    }
+    .quote-txt {
+        font-size: 4vw;
+    }
+}
+
+@media (min-width: 1068px) {
+    .main-title-txt {
+        font-size: 7.5vw;
     }
 
     .sub-title-txt {
-        font-size: 2vw;
+        font-size: 7.5vw;
     }
 
     .content-txt {
-        font-size: 3vw;
+        font-size: 2.5vw;
     }
 
     .quote-txt {
-        font-size: 1.5vw;
+        font-size: 2.5vw;
     }
 }
 
@@ -140,4 +156,14 @@ body {
     100% {
         background-position: 0% 82%
     }
+}
+
+.glyph {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.8em;
+}
+
+ul {
+    list-style-type: none;
 }

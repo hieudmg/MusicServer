@@ -2,17 +2,39 @@
 <head>
     <link rel="stylesheet" href="{% static "css/animate.min.css" %}">
     <link rel="stylesheet" href="{% static "css/landing.css" %}">
-    <link href="https://fonts.googleapis.com/css?family=Mali" rel="stylesheet">
-    <title>Thư mời kỷ yếu của bạn Hiếu</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <title>Thư mời kỷ yếu của Hiếu</title>
 </head>
 <body>
+<style>
+    .content-item:before {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        content: "";
+        background-repeat: no-repeat;
+        background-size: contain;
+        padding-right: 0.5em;
+    }
+
+    #citem1:before {
+        background-image: url("{% static "icons/calendar.svg" %}");
+    }
+
+    #citem2:before {
+        background-image: url("{% static "icons/location.svg" %}");
+    }
+</style>
 <div class="wrapper"></div>
 <div class="main-title main-title-txt animated jackInTheBox">Kỷ yếu</div>
-<div class="sub-title sub-title-txt animated bounceIn delay-1s"><span class="sub-title-padding"></span>của bạn Hiếu
+<div class="sub-title sub-title-txt animated bounceIn delay-1s">của Hiếu</div>
+<br>
+<div class="content-container">
+    <ul class="content content-txt animated fadeIn delay-2s">
+        <li id="citem1" class="content-item">sáng 28 tháng 10</li>
+        <li id="citem2" class="content-item">Đại học Bách Khoa</li>
+    </ul>
 </div>
-<div class="content content-txt animated fadeIn delay-2s">sáng 28 tháng 10</div>
-<div class="content content-txt animated fadeIn delay-2s">ở Bách Khoa</div>
-<div class="content content-txt animated fadeIn delay-2s">duy nhất một buổi hoy</div>
 <div class="quote quote-txt animated fadeIn delay-3s">"Thích thì đi không thích cũng đi"</div>
 <div class="landing-footer">
     From <a href="https://www.facebook.com/dmhpsi" target="_blank">Hiếu</a> with <span style="color:red">❤</span>
