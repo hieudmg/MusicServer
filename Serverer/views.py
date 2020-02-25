@@ -257,13 +257,15 @@ def strip(request):
     hasher.update(url.encode('utf-8'))
     from django.core.files.storage import default_storage
     import os.path
-    project_root = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     file_name = os.path.join(project_root, 'static', 'image_cache', hasher.hexdigest() + '.png')
-    # print(STATIC_ROOT)
+    # print(file_name)
     try:
         default_storage.open(file_name)
+        from django.contrib.staticfiles.templatetags.staticfiles import static
+        file_name = static('image_cache/' + hasher.hexdigest() + '.png')[1:]
         file_url = default_storage.url(file_name)
-        print(file_url)
+        # print(file_url)
         return HttpResponseRedirect('/' + file_url)
     except FileNotFoundError:
         # resp = urllib.request.urlopen(url, headers={'User-Agent': "Magic Browser"})
