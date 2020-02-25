@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="Update Surviv">
+    <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="Update Allowed Hosts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MusicServer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MusicServer/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Serverer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Serverer/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +46,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="D:/Global/python37" />
@@ -115,7 +116,7 @@
       <workItem from="1582356908580" duration="186000" />
       <workItem from="1582357186523" duration="3729000" />
       <workItem from="1582534442582" duration="2914000" />
-      <workItem from="1582596394970" duration="2926000" />
+      <workItem from="1582596394970" duration="3448000" />
     </task>
     <task id="LOCAL-00001" summary="Change: Response content of getinfo method&#10;Change: mp3 resource files tag">
       <created>1517592673379</created>
@@ -299,7 +300,21 @@
       <option name="project" value="LOCAL" />
       <updated>1582601142163</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Update Allowed Hosts">
+      <created>1582601473390</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1582601473390</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Update Static">
+      <created>1582601690826</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1582601690826</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -352,7 +367,9 @@
     <MESSAGE value="Update landing page" />
     <MESSAGE value="Redesign landing page" />
     <MESSAGE value="Update Surviv" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Surviv" />
+    <MESSAGE value="Update Allowed Hosts" />
+    <MESSAGE value="Update Static" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Static" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

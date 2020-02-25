@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import json
 import unicodedata
 import urllib
+import urllib.request
 from os import walk
 
 import cv2
