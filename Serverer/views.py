@@ -4,11 +4,14 @@ from __future__ import unicode_literals
 import json
 import unicodedata
 import urllib
+import urllib.request
 from os import walk
 
+import cv2
+import numpy as np
 from PIL import Image
 from django.core.files.storage import FileSystemStorage
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from tinytag import TinyTag
@@ -261,3 +264,47 @@ def poke(request):
 
 def landing(request):
     return render(request, 'Landing/landing.html')
+
+
+def strip(request):
+    url = request.GET.get('url', '')
+    import hashlib
+    hasher = hashlib.md5()
+    hasher.update(url.encode('utf-8'))
+    from django.core.files.storage import default_storage
+    from django.contrib.staticfiles.templatetags.staticfiles import static
+    file_name = static('image_cache/' + hasher.hexdigest() + '.png')[1:]
+    try:
+        default_storage.open(file_name)
+        file_url = default_storage.url(file_name)
+        print(file_url)
+        return HttpResponseRedirect('/' + file_url)
+    except FileNotFoundError:
+        # resp = urllib.request.urlopen(url, headers={'User-Agent': "Magic Browser"})
+        req = urllib.request.Request(url, headers={'User-Agent': "Magic Browser"})
+        resp = urllib.request.urlopen(req)
+        print('download done')
+        image = np.asarray(bytearray(resp.read()), dtype="uint8")
+        im = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
+        print('decode done')
+
+        im = cv2.normalize(im, None, alpha=0.0, beta=1.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+        print('norm done')
+        r, g, b, a = cv2.split(im)
+        print('split done')
+        im_gray = cv2.multiply(cv2.add(cv2.add(r, g), b), 1 / 3.0)
+        print('gray done')
+        _, im_gray = cv2.threshold(im_gray, 0.9, 1, cv2.THRESH_TOZERO_INV)
+        _, im_gray = cv2.threshold(im_gray, 0.20, 1, cv2.THRESH_TOZERO)
+        _, im_gray = cv2.threshold(im_gray, 0.1, 0.5, cv2.THRESH_BINARY_INV)
+        im_gray = cv2.add(im_gray, 0.5)
+        im_gray = cv2.multiply(im_gray, a)
+        hacked = cv2.merge((r, g, b, im_gray))
+        print('merge done')
+        hacked = cv2.normalize(hacked, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        buffer = cv2.imencode('.png', hacked)[1].tostring()
+
+        from django.core.files.base import ContentFile
+        default_storage.save(file_name, ContentFile(buffer))
+
+        return HttpResponse(buffer, content_type="image/png")

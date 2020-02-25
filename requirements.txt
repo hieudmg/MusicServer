@@ -1,3 +1,4 @@
-django
+requests
+django==1.*
 tinytag
-pillow
+opencv-python==3.*

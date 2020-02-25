@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^surviv/$', views.surviv, name='surviv'),
     url(r'^ddt/Main.max.js/$', views.ddt, name='ddt'),
     url(r'^poke/project.js/$', views.poke, name='poke'),
-    url(r'^landing/$', views.landing, name='landing')
+    url(r'^landing/$', views.landing, name='landing'),
+    url(r'^strip/$', views.strip, name='strip')
 ]
