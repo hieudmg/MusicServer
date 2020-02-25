@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="Redesign landing page">
-      <change beforePath="$PROJECT_DIR$/.idea/MusicServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MusicServer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c0f7b6af-f184-4bae-859f-ed5a4018e729" name="Default" comment="Update Surviv">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Serverer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Serverer/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Serverer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Serverer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MusicServer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MusicServer/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +115,7 @@
       <workItem from="1582356908580" duration="186000" />
       <workItem from="1582357186523" duration="3729000" />
       <workItem from="1582534442582" duration="2914000" />
-      <workItem from="1582596394970" duration="2591000" />
+      <workItem from="1582596394970" duration="2926000" />
     </task>
     <task id="LOCAL-00001" summary="Change: Response content of getinfo method&#10;Change: mp3 resource files tag">
       <created>1517592673379</created>
@@ -295,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582597097254</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Update Surviv">
+      <created>1582601142163</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1582601142163</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView">
@@ -347,7 +351,8 @@
     <MESSAGE value="Landing page for something ;)" />
     <MESSAGE value="Update landing page" />
     <MESSAGE value="Redesign landing page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Redesign landing page" />
+    <MESSAGE value="Update Surviv" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Surviv" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
