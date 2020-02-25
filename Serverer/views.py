@@ -256,8 +256,10 @@ def strip(request):
     hasher = hashlib.md5()
     hasher.update(url.encode('utf-8'))
     from django.core.files.storage import default_storage
-    from django.contrib.staticfiles.templatetags.staticfiles import static
-    file_name = static('image_cache/' + hasher.hexdigest() + '.png')[1:]
+    import os.path
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    file_name = os.path.join(project_root, 'static', 'image_cache', hasher.hexdigest() + '.png')
+    # print(STATIC_ROOT)
     try:
         default_storage.open(file_name)
         file_url = default_storage.url(file_name)
